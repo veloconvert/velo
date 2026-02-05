@@ -1,189 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VELO | Pro PDF to Excel</title>
-    <meta name="google-site-verification" content="7QSo9l_GthJCi86IIW0CLwarA2KK0AtgZO-WN4PnlTE" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* PYTHON CSS CLONE START */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
-        
-        body { background-color: #0b0e14; color: #e2e8f0; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-        .stApp { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-        
-        /* LOGO & BRANDING */
-        .brand-logo {
-            font-weight: 800; font-size: clamp(45px, 10vw, 75px); letter-spacing: 15px;
-            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #ffffff 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.4));
-            margin-bottom: 10px;
-        }
-        .neon-divider { height: 3px; background: #00d2ff; box-shadow: 0 0 20px #00d2ff; margin-bottom: 60px; }
-        
-        /* UPLOADER CLONE */
-        .stFileUploader {
-            max-width: 1000px; margin: 40px auto !important; border: 2px dashed #00d2ff !important;
-            background-color: rgba(22, 27, 34, 0.8) !important; border-radius: 24px !important; padding: 50px !important;
-            position: relative; text-align: center; cursor: pointer; transition: 0.3s;
-        }
-        .stFileUploader:hover { background-color: rgba(0, 210, 255, 0.05) !important; }
-        .stFileUploader::after {
-            content: "VELO PRO | 500MB CAPACITY"; position: absolute; bottom: 20px; left: 50%;
-            transform: translateX(-50%); color: #00d2ff !important; font-weight: 800 !important;
-            font-size: 18px !important; letter-spacing: 3px; text-shadow: 0 0 15px rgba(0, 210, 255, 0.8);
-            background-color: #161b22; padding: 5px 20px; z-index: 99;
-        }
+  <meta charset="UTF-8" />
+  <title>VELO | Pro PDF to Excel</title>
+  <meta name="description" content="Professional PDF Table Extractor – Elite Precision Data Conversion">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* COLUMNS (4, 0.5, 1) */
-        .main-engine-grid { display: grid; grid-template-columns: 4fr 0.5fr 1fr; gap: 20px; margin-top: 40px; }
-        @media (max-width: 900px) { .main-engine-grid { grid-template-columns: 1fr; } }
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 
-        /* PREVIEW & STATUS */
-        .stStatus { background: rgba(17, 24, 39, 0.8); border: 1px solid #1f2937; padding: 15px; border-radius: 8px; margin: 20px 0; display: none; }
-        .stInfo { background: rgba(0, 210, 255, 0.1); color: #00d2ff; padding: 1rem; border-radius: 0.5rem; margin: 1rem 0; display: none; }
-        .stDataFrame { width: 100%; border-collapse: collapse; margin: 1rem 0; background: #161b22; font-size: 14px; border: 1px solid #1f2937; }
-        .stDataFrame th { background: #1f2937; padding: 12px; text-align: left; color: #00d2ff; border: 1px solid #1f2937; }
-        .stDataFrame td { padding: 10px; border: 1px solid #1f2937; color: #8b949e; }
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0e14;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
 
-        /* BUTTON */
-        .stDownloadButton {
-            background-color: #22c55e; color: white; border: none; padding: 0.75rem 2rem;
-            border-radius: 0.5rem; font-weight: 800; cursor: pointer; width: 100%;
-            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3); margin-top: 20px;
-        }
+    /* BRAND */
+    .brand-logo {
+      font-weight: 800;
+      font-size: clamp(45px, 10vw, 75px);
+      letter-spacing: 15px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 20px rgba(255,255,255,0.4));
+    }
 
-        .ad-side { height: 600px; background: #111827; border: 1px solid #1f2937; border-radius: 8px; writing-mode: vertical-rl; padding: 20px; color: #374151; display: flex; align-items: center; justify-content: center; font-weight: 800; }
-        .footer-links { text-align: center; font-size: 12px; color: #4b5563; margin-top: 50px; border-top: 1px solid #1f2937; padding-top: 30px; }
-        .footer-links a { color: #00d2ff; text-decoration: none; margin: 0 10px; }
-        
-        input[type="file"] { display: none; }
-    </style>
-</head>
-<body>
+    .neon-divider {
+      height: 3px;
+      background: #00d2ff;
+      box-shadow: 0 0 20px #00d2ff;
+      margin: 40px 0 60px;
+    }
 
-<div class="stApp">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div class="brand-logo">VELO</div>
-        <div style="background:#1f2937; padding:10px 20px; border-radius:8px; color:#00d2ff; font-weight:700; cursor:pointer;">🌐 OUR SERVICES</div>
-    </div>
-    <div class="neon-divider"></div>
+    /* LAYOUT */
+    .container {
+      max-width: 1400px;
+      margin: auto;
+      padding: 40px;
+    }
 
-    <div class="main-engine-grid">
-        <div class="col-main">
-            <h1 style="margin:0; font-size: 32px;">Professional PDF Table Extractor</h1>
-            <p style="color: #8b949e; font-size: 22px; margin-bottom: 40px;">Elite Precision Data Conversion</p>
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
 
-            <label class="stFileUploader" for="pdfInput">
-                <div style="color: #00d2ff; font-weight: 700; font-size: 18px;">DRAG & DROP PDF OR CLICK TO UPLOAD</div>
-                <input type="file" id="pdfInput" accept="application/pdf">
-            </label>
+    .main {
+      display: grid;
+      grid-template-columns: 4fr 1fr;
+      gap: 40px;
+    }
 
-            <div id="status" class="stStatus">VELO PRO ENGINE PROCESSING...</div>
-            <div id="info" class="stInfo"></div>
+    /* UPLOADER */
+    .uploader {
+      border: 2px dashed #00d2ff;
+      border-radius: 24px;
+      padding: 60px;
+      text-align: center;
+      background: rgba(22,27,34,0.8);
+      position: relative;
+      margin: 40px 0;
+    }
 
-            <div id="previewArea" style="display: none; margin-top: 30px;">
-                <p id="tableCount" style="font-weight: 800; color: #fff;"></p>
-                <div style="overflow-x: auto;">
-                    <table class="stDataFrame" id="dataTable"></table>
-                </div>
-                <button id="downloadBtn" class="stDownloadButton">✅ READY TO DOWNLOAD</button>
-            </div>
+    .up
 
-            <div style="margin-top: 60px; border-top: 1px solid #1f2937; padding-top: 40px;">
-                <h3>How It Works</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
-                    <div><strong>1. Upload</strong><br><small style="color:#8b949e;">Drop your high-complexity PDF file into the secure VELO zone.</small></div>
-                    <div><strong>2. Extract</strong><br><small style="color:#8b949e;">Our Elite Engine identifies nested table structures with 99.9% accuracy.</small></div>
-                    <div><strong>3. Download</strong><br><small style="color:#8b949e;">Get your perfectly formatted Excel file instantly.</small></div>
-                </div>
-            </div>
-        </div>
-
-        <div></div>
-
-        <div class="ad-side">ADVERTISEMENT</div>
-    </div>
-
-    <div class="footer-links">
-        <p>VELO GLOBAL • 500MB PRO CAPACITY • 2026</p>
-        <p>
-            <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#">Contact Us</a>
-        </p>
-        <p style="font-size: 10px; margin-top: 10px; opacity: 0.5;">All uploaded files are processed in-memory and never touch our servers.</p>
-    </div>
-</div>
-
-<script>
-    const pdfInput = document.getElementById('pdfInput');
-    const status = document.getElementById('status');
-    const info = document.getElementById('info');
-    const previewArea = document.getElementById('previewArea');
-    const dataTable = document.getElementById('dataTable');
-    const tableCount = document.getElementById('tableCount');
-    const downloadBtn = document.getElementById('downloadBtn');
-
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-    pdfInput.onchange = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        status.style.display = 'block';
-        previewArea.style.display = 'none';
-        info.style.display = 'none';
-
-        const reader = new FileReader();
-        reader.onload = async function() {
-            try {
-                const typedarray = new Uint8Array(this.result);
-                const pdf = await pdfjsLib.getDocument(typedarray).promise;
-                const page = await pdf.getPage(1);
-                const textContent = await page.getTextContent();
-                
-                // Camelot mantığı: Satırları grupla
-                let rawItems = textContent.items.map(item => item.str).filter(s => s.trim() !== "");
-                let tableRows = [];
-                for(let i = 0; i < rawItems.length; i+=3) { // 3 sütunlu simülasyon
-                    tableRows.push([rawItems[i], rawItems[i+1] || "", rawItems[i+2] || ""]);
-                }
-
-                // Önizleme Tablosu Oluştur
-                let html = '<thead><tr><th>Column 1</th><th>Column 2</th><th>Column 3</th></tr></thead><tbody>';
-                tableRows.slice(0, 5).forEach(row => {
-                    html += `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`;
-                });
-                html += '</tbody>';
-                
-                dataTable.innerHTML = html;
-                tableCount.innerText = `Table 1 (Preview)`;
-                info.innerText = `Success: ${pdf.numPages} enterprise tables identified.`;
-                
-                // Excel Hazırlama
-                const ws = XLSX.utils.aoa_to_sheet(tableRows);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, "VELO_Export");
-
-                downloadBtn.onclick = () => XLSX.writeFile(wb, "velo_export.xlsx");
-
-                setTimeout(() => {
-                    status.style.display = 'none';
-                    info.style.display = 'block';
-                    previewArea.style.display = 'block';
-                }, 1000);
-
-            } catch (err) {
-                status.style.display = 'none';
-                alert("Error: PDF processing failed.");
-            }
-        };
-        reader.readAsArrayBuffer(file);
-    };
-</script>
-
-</body>
-</html>
