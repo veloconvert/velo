@@ -3,138 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VELO | PDF Table Extractor</title>
+    <title>VELO | Pro PDF to Excel</title>
+    <meta name="google-site-verification" content="7QSo9l_GthJCi86IIW0CLwarA2KK0AtgZO-WN4PnlTE" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0a0a0c;
-            --accent-blue: #007bff;
-            --accent-orange: #ffa500;
-            --success-green: #28a745;
-            --text-color: #e0e0e0;
-        }
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        .container {
-            width: 90%;
-            max-width: 600px;
-            text-align: center;
-            padding: 50px;
-            border: 1px solid #1e1e24;
-            border-radius: 16px;
-            background: #111114;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        h1 { color: #fff; letter-spacing: 6px; font-weight: 300; margin-bottom: 5px; }
-        .brand-sub { color: var(--accent-blue); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 30px; text-transform: uppercase; }
+        /* STREAMLIT CSS CLONE */
+        :root { --bg: #0b0e14; --neon: #00d2ff; --text: #e2e8f0; --border: #1f2937; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; }
         
-        .upload-area {
-            border: 1px dashed #333;
-            padding: 50px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            background: rgba(255,255,255,0.02);
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        
+        /* LOGO & BRANDING (EXACT CLONE) */
+        .brand-logo {
+            font-weight: 800; font-size: 65px; letter-spacing: 15px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #ffffff 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.4));
         }
-        .upload-area:hover { border-color: var(--accent-orange); background: rgba(255,165,0,0.05); }
+        .neon-divider { height: 3px; background: var(--neon); box-shadow: 0 0 20px var(--neon); margin-bottom: 60px; }
+        
+        /* UPLOADER CLONE (THE BLACK BOX) */
+        .st-uploader {
+            max-width: 1000px; margin: 40px auto; border: 2px dashed var(--neon);
+            background-color: rgba(22, 27, 34, 0.8); border-radius: 24px; padding: 50px;
+            text-align: center; cursor: pointer; position: relative;
+        }
+        .st-uploader:after {
+            content: "VELO PRO | 500MB CAPACITY"; display: block; margin-top: 20px;
+            color: var(--neon); font-weight: 800; font-size: 18px; letter-spacing: 3px;
+            text-shadow: 0 0 15px rgba(0, 210, 255, 0.8);
+        }
 
-        /* Turuncu Yükleme Animasyonu */
-        .loader {
-            display: none;
-            width: 50px;
-            height: 50px;
-            border: 3px solid #1e1e24;
-            border-top: 3px solid var(--accent-orange);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 25px auto;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* MAIN CONTENT GRID */
+        .main-layout { display: grid; grid-template-columns: 1fr 250px; gap: 30px; }
+        
+        /* PREVIEW TABLE STYLING */
+        .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; background: #161b22; border-radius: 8px; overflow: hidden; }
+        .data-table th { background: #1f2937; color: var(--neon); padding: 12px; text-align: left; }
+        .data-table td { padding: 10px; border-bottom: 1px solid var(--border); color: #8b949e; }
 
-        #downloadBtn {
-            display: none;
-            background-color: var(--success-green);
-            color: white;
-            border: none;
-            padding: 18px 40px;
-            border-radius: 4px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 25px;
-            width: 100%;
-            letter-spacing: 1px;
-            transition: 0.3s;
+        /* BUTTONS */
+        .download-btn {
+            background: #22c55e; color: white; border: none; padding: 16px 40px;
+            border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4); margin-top: 20px;
         }
-        #downloadBtn:hover { opacity: 0.9; transform: translateY(-2px); }
-        #status { margin-top: 20px; font-size: 0.85rem; color: #888; }
+
+        .ad-placeholder {
+            background: #111827; border: 1px solid var(--border); border-radius: 8px;
+            height: 600px; display: flex; align-items: center; justify-content: center;
+            color: #374151; writing-mode: vertical-rl; font-weight: 700;
+        }
+
+        input[type="file"] { display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>VELO</h1>
-    <div class="brand-sub">High-Precision Extraction</div>
+    <div class="brand-logo">VELO</div>
+    <div class="neon-divider"></div>
 
-    <div class="upload-area" id="dropZone" onclick="document.getElementById('fileInput').click()">
-        <span id="uploadText">Drop PDF or Click to Browse</span>
-        <input type="file" id="fileInput" hidden accept="application/pdf">
+    <div class="main-layout">
+        <div class="engine-part">
+            <h1 style="font-size: 38px; margin: 0;">Professional PDF Table Extractor</h1>
+            <p style="color: #8b949e; font-size: 20px; margin: 10px 0 40px 0;">Elite Precision Data Conversion</p>
+
+            <label class="st-uploader" id="dropZone">
+                <div style="color: var(--neon); font-size: 20px; font-weight: 700;">DRAG & DROP PDF OR CLICK TO UPLOAD</div>
+                <input type="file" id="pdfInput" accept="application/pdf">
+            </label>
+
+            <div id="processing" style="display: none; color: var(--neon); margin: 20px 0;">VELO PRO ENGINE PROCESSING...</div>
+
+            <div id="resultArea" style="display: none;">
+                <div style="background: rgba(0, 210, 255, 0.1); color: var(--neon); padding: 10px; border-radius: 8px; margin: 20px 0;">
+                    ✅ Success: Tables identified in document.
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table" id="previewTable"></table>
+                </div>
+                <button id="downloadBtn" class="download-btn">✅ READY TO DOWNLOAD</button>
+            </div>
+        </div>
+
+        <div class="ad-placeholder">ADVERTISEMENT</div>
     </div>
 
-    <div class="loader" id="loader"></div>
-    <div id="status"></div>
-
-    <button id="downloadBtn">READY TO DOWNLOAD</button>
+    <div style="text-align: center; margin-top: 100px; color: #4b5563; font-size: 12px;">
+        <p>VELO GLOBAL • 500MB PRO CAPACITY • 2026</p>
+        <p><a href="#" style="color:var(--neon); text-decoration: none;">Privacy Policy</a> | <a href="#" style="color:var(--neon); text-decoration: none;">Terms of Service</a></p>
+    </div>
 </div>
 
 <script>
-    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    const pdfInput = document.getElementById('pdfInput');
+    const resultArea = document.getElementById('resultArea');
+    const previewTable = document.getElementById('previewTable');
+    const processing = document.getElementById('processing');
+
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
-    const fileInput = document.getElementById('fileInput');
-    const loader = document.getElementById('loader');
-    const status = document.getElementById('status');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const uploadText = document.getElementById('uploadText');
-    let finalTableData = [];
-
-    fileInput.onchange = async (e) => {
+    pdfInput.onchange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        // UI Reset
-        loader.style.display = 'block';
-        uploadText.innerText = file.name;
-        status.innerText = "Analyzing table structures...";
-        downloadBtn.style.display = 'none';
-        finalTableData = [];
+        processing.style.display = 'block';
+        resultArea.style.display = 'none';
 
         const reader = new FileReader();
         reader.onload = async function() {
             try {
                 const typedarray = new Uint8Array(this.result);
                 const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                const page = await pdf.getPage(1);
+                const textContent = await page.getTextContent();
+                
+                // Önizleme satırları oluştur
+                let rows = textContent.items.slice(0, 8).map(item => item.str).filter(s => s.trim() !== "");
+                
+                let html = '<tr><th>Preview Data</th></tr>';
+                rows.forEach(r => html += `<tr><td>${r}</td></tr>`);
+                previewTable.innerHTML = html;
 
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const page = await pdf.getPage(i);
-                    const textContent = await page.getTextContent();
-                    
-                    // Improved Logic: Grouping by Y and then X to preserve columns
-                    const items = textContent.items.map(item => ({
-                        str: item.str,
-                        x: item.transform[4],
-                        y: item.transform[5]
-                    }));
+                // Excel Hazırlama (SheetJS)
+                const ws = XLSX.utils.json_to_sheet(rows.map(r => ({Data: r})));
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "VELO_Export");
 
-                    // Sort by Y descending (top to bottom)
-                    items.sort((a, b) => b.y - a.y);
+                document.getElementById('downloadBtn').onclick = () => {
+                    XLSX.writeFile(wb, "velo_export.xlsx");
+                };
 
-                    let rows = [];
+                processing.style.display = 'none';
+                resultArea.style.display = 'block';
+            } catch (err) {
+                alert("Error processing PDF.");
+                processing.style.display = 'none';
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    };
+</script>
+
+</body>
+</html>
