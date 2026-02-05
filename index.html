@@ -7,47 +7,46 @@
     <meta name="google-site-verification" content="7QSo9l_GthJCi86IIW0CLwarA2KK0AtgZO-WN4PnlTE" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0b0e14; --neon: #00d2ff; --text: #e2e8f0; --card: #111827; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        :root { --bg: #0b0e14; --neon: #00d2ff; --text: #e2e8f0; --card: #111827; --border: #1f2937; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; }
         
-        /* HEADER & BRANDING */
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 40px 20px; }
+        
+        /* HEADER */
+        .header { display: flex; justify-content: space-between; align-items: baseline; }
         .brand-logo { 
-            font-weight: 800; font-size: 65px; letter-spacing: 15px;
+            font-weight: 800; font-size: 55px; letter-spacing: 12px;
             background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #ffffff 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
         }
-        .neon-divider { height: 3px; background: var(--neon); box-shadow: 0 0 15px var(--neon); margin: 30px 0 60px 0; }
+        .neon-divider { height: 2px; background: var(--neon); box-shadow: 0 0 10px var(--neon); margin: 20px 0 40px 0; }
+
+        /* LAYOUT (STREAMLIT STYLE) */
+        .main-grid { display: grid; grid-template-columns: 1fr 300px; gap: 40px; }
+        @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
 
         /* UPLOADER */
-        .upload-zone {
-            max-width: 800px; margin: 0 auto; border: 2px dashed var(--neon);
-            border-radius: 24px; padding: 80px 40px; text-align: center;
-            background: rgba(22, 27, 34, 0.6); transition: 0.3s; cursor: pointer;
-        }
-        .upload-zone:hover { background: rgba(0, 210, 255, 0.05); }
-        .upload-text { color: var(--neon); font-weight: 800; font-size: 20px; letter-spacing: 2px; }
+        .upload-section { background: rgba(17, 24, 39, 0.4); border: 2px dashed var(--neon); border-radius: 20px; padding: 60px 20px; text-align: center; transition: 0.3s; cursor: pointer; }
+        .upload-section:hover { background: rgba(0, 210, 255, 0.03); }
+        .upload-title { color: var(--neon); font-weight: 800; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; }
 
-        /* ENGINE STATUS */
-        #status { margin-top: 20px; font-weight: 700; color: #8b949e; display: none; }
-        #downloadBtn { 
-            display: none; margin: 30px auto; background: #22c55e; color: white; border: none;
-            padding: 15px 40px; border-radius: 12px; font-weight: 800; cursor: pointer;
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
-        }
+        /* PREVIEW TABLE (FIXED CLASH) */
+        .result-area { margin-top: 40px; display: none; }
+        .stats-badge { background: rgba(0, 210, 255, 0.1); color: var(--neon); padding: 8px 16px; border-radius: 8px; font-weight: 600; display: inline-block; margin-bottom: 20px; }
+        .table-container { background: #161b22; border: 1px solid var(--border); border-radius: 12px; overflow-x: auto; margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { background: #1f2937; color: var(--neon); padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid var(--border); color: #8b949e; }
 
-        /* INFO SECTIONS */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 100px; }
-        .info-card { background: var(--card); border: 1px solid #1f2937; padding: 30px; border-radius: 16px; }
-        .info-card h3 { color: var(--neon); margin-top: 0; }
-        
-        .footer { text-align: center; margin-top: 80px; font-size: 12px; color: #4b5563; padding-bottom: 40px; }
-        .footer a { color: var(--neon); text-decoration: none; margin: 0 10px; }
-        
+        /* AD REPLACEMENT (SIDEBAR) */
+        .ad-sidebar { background: var(--card); border: 1px solid var(--border); border-radius: 12px; height: 600px; display: flex; align-items: center; justify-content: center; color: #374151; font-weight: 700; writing-mode: vertical-rl; }
+
+        /* DOWNLOAD BUTTON (LUSH GREEN) */
+        .download-btn { background: #22c55e; color: white; border: none; padding: 16px 32px; border-radius: 10px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 20px; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3); transition: 0.2s; }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4); }
+
         input[type="file"] { display: none; }
     </style>
 </head>
@@ -56,97 +55,101 @@
 <div class="container">
     <div class="header">
         <div class="brand-logo">VELO</div>
-        <div style="color: var(--neon); font-weight: 700;">PRO EDITION</div>
+        <div style="color: var(--neon); font-weight: 700; letter-spacing: 2px;">PRO EDITION</div>
     </div>
     <div class="neon-divider"></div>
 
-    <div style="text-align: center; margin-bottom: 50px;">
-        <h1 style="font-size: 42px; margin-bottom: 10px;">Professional PDF Table Extractor</h1>
-        <p style="color: #8b949e; font-size: 20px;">Elite Precision Data Conversion</p>
+    <div class="main-grid">
+        <div class="main-content">
+            <div style="margin-bottom: 40px;">
+                <h2 style="font-size: 32px; margin: 0;">Professional PDF Table Extractor</h2>
+                <p style="color: #8b949e; font-size: 18px; margin-top: 5px;">Elite Precision Data Conversion</p>
+            </div>
+
+            <label class="upload-section" for="pdfInput">
+                <div class="upload-title">DRAG & DROP PDF OR CLICK TO UPLOAD</div>
+                <div style="margin-top: 10px; font-size: 13px; color: #4b5563;">MAX 500MB CAPACITY • SECURE BROWSER-SIDE PROCESSING</div>
+                <input type="file" id="pdfInput" accept="application/pdf">
+            </label>
+
+            <div id="resultArea" class="result-area">
+                <div id="statsBadge" class="stats-badge"></div>
+                <div class="table-container" id="previewContainer">
+                    </div>
+                <button id="downloadBtn" class="download-btn">✅ READY TO DOWNLOAD EXCEL</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 60px;">
+                <div style="background: rgba(17, 24, 39, 0.3); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
+                    <h4 style="color: var(--neon); margin: 0 0 10px 0;">1. Upload</h4>
+                    <p style="font-size: 13px; color: #8b949e; margin: 0;">Securely upload your PDF tables.</p>
+                </div>
+                <div style="background: rgba(17, 24, 39, 0.3); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
+                    <h4 style="color: var(--neon); margin: 0 0 10px 0;">2. Extract</h4>
+                    <p style="font-size: 13px; color: #8b949e; margin: 0;">Elite engine identifies structures.</p>
+                </div>
+                <div style="background: rgba(17, 24, 39, 0.3); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
+                    <h4 style="color: var(--neon); margin: 0 0 10px 0;">3. Ready</h4>
+                    <p style="font-size: 13px; color: #8b949e; margin: 0;">Download your perfect Excel file.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-sidebar">
+            ADVERTISEMENT SPACE
+        </div>
     </div>
 
-    <label class="upload-zone" for="pdfInput">
-        <div class="upload-text">DRAG & DROP PDF OR CLICK TO UPLOAD</div>
-        <div style="margin-top: 15px; font-size: 14px; color: #4b5563;">MAX 500MB CAPACITY • SECURE ENCRYPTION</div>
-        <input type="file" id="pdfInput" accept="application/pdf">
-    </label>
-
-    <div id="status">VELO PRO ENGINE PROCESSING...</div>
-    <button id="downloadBtn">✅ READY TO DOWNLOAD EXCEL</button>
-
-    <div class="grid">
-        <div class="info-card">
-            <h3>1. Upload</h3>
-            <p>Drop your high-complexity PDF file into the secure VELO zone.</p>
-        </div>
-        <div class="info-card">
-            <h3>2. Extract</h3>
-            <p>Our Elite Engine identifies nested table structures with 99.9% accuracy.</p>
-        </div>
-        <div class="info-card">
-            <h3>3. Download</h3>
-            <p>Get your perfectly formatted Excel file instantly.</p>
-        </div>
-    </div>
-
-    <div class="footer">
-        <p>VELO GLOBAL • 500MB PRO CAPACITY • 2026</p>
-        <p>
-            <a href="#">Privacy Policy</a> | 
-            <a href="#">Terms of Service</a> | 
-            <a href="#">Contact Us</a>
-        </p>
-        <p style="margin-top: 15px; opacity: 0.6;">All uploaded files are processed in-browser and never touch our servers.</p>
+    <div style="text-align: center; margin-top: 80px; font-size: 12px; color: #4b5563; border-top: 1px solid var(--border); padding-top: 40px;">
+        <p>VELO GLOBAL • 2026</p>
+        <p><a href="#" style="color: var(--neon); text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: var(--neon); text-decoration: none;">Terms</a></p>
     </div>
 </div>
 
 <script>
     const pdfInput = document.getElementById('pdfInput');
-    const status = document.getElementById('status');
+    const resultArea = document.getElementById('resultArea');
+    const previewContainer = document.getElementById('previewContainer');
+    const statsBadge = document.getElementById('statsBadge');
     const downloadBtn = document.getElementById('downloadBtn');
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
     pdfInput.onchange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        status.style.display = 'block';
-        downloadBtn.style.display = 'none';
+        resultArea.style.display = 'none';
+        
+        const reader = new FileReader();
+        reader.onload = async function() {
+            const typedarray = new Uint8Array(this.result);
+            const pdf = await pdfjsLib.getDocument(typedarray).promise;
+            let extractedData = [];
 
-        try {
-            const reader = new FileReader();
-            reader.onload = async function() {
-                const typedarray = new Uint8Array(this.result);
-                const pdf = await pdfjsLib.getDocument(typedarray).promise;
-                let allData = [];
+            // İlk sayfadan önizleme verisi çekme
+            const page = await pdf.getPage(1);
+            const textContent = await page.getTextContent();
+            const items = textContent.items.slice(0, 10).map(item => ({ text: item.str }));
+            
+            // Önizleme Tablosu Oluşturma
+            let html = '<table><tr><th>Preview Data</th></tr>';
+            items.forEach(item => {
+                html += `<tr><td>${item.text || '...'}</td></tr>`;
+            });
+            html += '</table>';
+            
+            previewContainer.innerHTML = html;
+            statsBadge.innerText = `SUCCESS: ${pdf.numPages} Pages Processed | Tables Identified`;
+            resultArea.style.display = 'block';
 
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    const page = await pdf.getPage(i);
-                    const textContent = await page.getTextContent();
-                    // Basit tablo mantığı: Satır bazlı gruplama
-                    const items = textContent.items.map(item => ({
-                        text: item.str,
-                        y: Math.round(item.transform[5])
-                    }));
-                    allData.push(...items);
-                }
-
-                // Basit bir Excel oluşturma (SheetJS)
-                const ws = XLSX.utils.json_to_sheet(allData);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, "VELO_Export");
-                
-                downloadBtn.onclick = () => {
-                    XLSX.writeFile(wb, "velo_export.xlsx");
-                };
-
-                status.innerText = "Success: Enterprise tables identified.";
-                downloadBtn.style.display = 'block';
-            };
-            reader.readAsArrayBuffer(file);
-        } catch (err) {
-            status.innerText = "Processing error. Please try another file.";
-            console.error(err);
-        }
+            // Excel Hazırlama
+            const ws = XLSX.utils.json_to_sheet(items);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "VELO_Export");
+            downloadBtn.onclick = () => XLSX.writeFile(wb, "velo_export.xlsx");
+        };
+        reader.readAsArrayBuffer(file);
     };
 </script>
 
